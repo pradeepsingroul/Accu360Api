@@ -4,14 +4,16 @@ const express = require('express');
 const app = express();
 const port = 3232;
 
+async function getInvoices(doctype, fields, start, limit, filters = []) {
 
-async function getInvoices(doctype, fields, start, limit) {
-
-    let url = 'https://demo.accu360.co.in/api/resource/Sales Invoice';
+    let url = 'https://itsl.accu360.cloud/api/resource/Sales Invoice';
     url += `?fields=${JSON.stringify(fields)}&limit_start=${start}&limit_page_length=${limit}`;
 
+   
+    if (filters.length > 0) {
+        url += `&filters=${encodeURIComponent(JSON.stringify(filters))}`;
+    }
 
-    
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -32,14 +34,19 @@ async function getInvoices(doctype, fields, start, limit) {
     }
 }
 
-
 app.get('/get-invoices', async (req, res) => {
-    const { doctype, fields = '["*"]', start = 0, length = '*' } = req.query;
+    const { doctype, fields = '["*"]', start = 0, length = '*', filters = '[]' } = req.query;
 
+    console.log(`Doctype: ${doctype}, Fields: ${fields}, Page: ${start}, Length: ${length}, Filters: ${filters}`);
 
-    console.log(`Doctype: ${doctype}, Fields: ${fields}, Page: ${start}, Length: ${length}`);
+    let parsedFilters;
+    try {
+        parsedFilters = JSON.parse(filters);
+    } catch (e) {
+        parsedFilters = [];
+    }
 
-    const listResult = await getInvoices(doctype, fields, start, length)
+    const listResult = await getInvoices(doctype, fields, start, length, parsedFilters);
 
     if (listResult.success) {
         res.status(200).json({ success: true, data: listResult.data });
@@ -50,10 +57,14 @@ app.get('/get-invoices', async (req, res) => {
 
 // Home route
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.status(200).json({
+        success: true,
+        message: "Welcome to the API. Please use the /get-invoices endpoint for the desired functionality.",
+        data: ""
+    });
 });
 
-// Start the server
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
