@@ -6,7 +6,7 @@ const port = 3232;
 
 async function getInvoices(doctype, fields, start, limit, filters = []) {
 
-    let url = 'https://itsl.accu360.cloud/api/resource/Sales Invoice';
+    let url = 'https://demo.accu360.co.in/api/resource/Sales Invoice';
     url += `?fields=${JSON.stringify(fields)}&limit_start=${start}&limit_page_length=${limit}`;
 
    
