@@ -6,7 +6,7 @@ const port = 3232;
 
 async function getInvoices(doctype, fields, start, limit, filters = []) {
 
-    let url = 'https://demo.accu360.co.in/api/resource/Sales Invoice';
+    let url = 'https://planetpharma.accu360.cloud/api/resource/Sales Invoice';
     url += `?fields=${JSON.stringify(fields)}&limit_start=${start}&limit_page_length=${limit}`;
 
    
@@ -19,7 +19,7 @@ async function getInvoices(doctype, fields, start, limit, filters = []) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `token 65d3d62a57fc262:987bd63d90afc46`
+                'Authorization': `token 2ed5ebc5ece4903:041dee4e4e8c120`
             }
         });
 
