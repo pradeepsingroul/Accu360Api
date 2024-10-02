@@ -35,7 +35,7 @@ async function getInvoices(doctype, fields, start, limit, filters = []) {
 }
 
 app.get('/get-invoices', async (req, res) => {
-    const { doctype, fields = '["*"]', start = 0, length = '*', filters = '[]' } = req.query;
+    const { doctype, fields = '["*"]', start = 0, length = '20', filters = '[]' } = req.query;
 
     console.log(`Doctype: ${doctype}, Fields: ${fields}, Page: ${start}, Length: ${length}, Filters: ${filters}`);
 
